@@ -186,14 +186,39 @@ test.describe('Questão 1.1 - Rate Limiting', () => {
                 logStep(`Status recebido: ${lastResponse.status()}`);
                 logStep(`Estado do rate limit: ${buildRateLimitLog(lastRateLimitInfo)}`);
 
-                if ([403, 429].includes(lastResponse.status()) || lastRateLimitInfo.remaining === 0) {
+                if ([403, 429].includes(lastResponse.status())) {
                     const bodyText = await lastResponse.text();
 
                     logStep('Limite esgotado ou bloqueio detectado');
                     logStep(`Body recebido: ${bodyText}`);
 
-                    expect([403, 429]).toContain(lastResponse.status());
                     expect(lastRateLimitInfo.remaining).toBe(0);
+                    return;
+                }
+                // Observação:
+                // Quando a requisição atual consome o último slot disponível da janela,
+                // a resposta ainda pode ser 200 com X-RateLimit-Remaining = 0.
+                // Nesse caso, uma chamada adicional é necessária para confirmar o bloqueio
+                // efetivo por rate limit com retorno 403 ou 429.
+                if (lastRateLimitInfo.remaining === 0) {
+                    const bodyText = await lastResponse.text();
+
+                    logStep('Última requisição permitida detectada com remaining = 0');
+                    logStep(`Status recebido na última requisição válida: ${lastResponse.status()}`);
+                    logStep(`Body recebido: ${bodyText}`);
+                    logStep('Realizando uma chamada adicional para confirmar o bloqueio por rate limit');
+
+                    const blockedResponse = await apiContext.get(ENDPOINT);
+                    const blockedHeaders = blockedResponse.headers();
+                    const blockedRateLimitInfo = getRateLimitInfo(blockedHeaders);
+                    const blockedBodyText = await blockedResponse.text();
+
+                    logStep(`Status da chamada adicional: ${blockedResponse.status()}`);
+                    logStep(`Estado após bloqueio: ${buildRateLimitLog(blockedRateLimitInfo)}`);
+                    logStep(`Body da chamada adicional: ${blockedBodyText}`);
+
+                    expect([403, 429]).toContain(blockedResponse.status());
+                    expect(blockedRateLimitInfo.remaining).toBe(0);
                     return;
                 }
             }

@@ -84,7 +84,7 @@ test.describe('Questão 1.2 - Gerenciamento de Tokens', () => {
         expect(refreshedMetadata.expiresAt).toBeGreaterThan(Date.now());
     });
 
-    test('valida reutilizar token válido sem reautenticar desnecessariamente', async () => {
+    test('valida reutilizar token válido sem reautenticar', async () => {
         const authManager = new AuthManager(apiContext);
 
         logStep('Obtendo token inicial');
@@ -124,7 +124,7 @@ test.describe('Questão 1.2 - Gerenciamento de Tokens', () => {
         expect(metadataB.expiresAt).toBeGreaterThan(Date.now());
     });
 
-    test('deve realizar chamada autenticada usando token válido', async () => {
+    test('valida chamada autenticada usando token válido', async () => {
         const authManager = new AuthManager(apiContext);
 
         logStep('Obtendo token válido para chamada autenticada');
