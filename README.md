@@ -57,15 +57,15 @@ cd part1-api
 ### 4. Instalar suporte para variáveis de ambiente
 - npm install dotenv
 ### 5. Criar o arquivo de ambiente
-- Crie um arquivo .env com base no .env.example.
-- GITHUB_TOKEN=
-- REQRES_API_KEY=reqres-free-v1
+- Crie um arquivo .env
+- Suite completa TRUE, False para pipelines. 
+- ENABLE_EXHAUST_RATE_LIMIT_TEST=false
+- EXHAUST_MAX_ATTEMPTS=70
 
 ## Como rodar o projeto
 - npx playwright test
-- npx playwright test questao1.1-rate-limiting/testes
-- npx playwright test questao1.2-token-management/testes
 - npx playwright test questao1.1-rate-limiting/testes/rate-limiting.spec.js
+- npx playwright test questao1.2-token-management/testes
 - npx playwright show-report
 
 ```bash
