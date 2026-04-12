@@ -58,14 +58,17 @@ cd part1-api
 - npm install dotenv
 ### 5. Criar o arquivo de ambiente
 - Crie um arquivo .env
-- Suite completa TRUE, False para pipelines. 
+- Suite completa TRUE, False para pipelines(opt-in). 
 - ENABLE_EXHAUST_RATE_LIMIT_TEST=false
 - EXHAUST_MAX_ATTEMPTS=70
+- REQRES_API_KEY=sua_chave_aqui
+- REQRES_EMAIL=eve.holt@reqres.in
+- REQRES_PASSWORD=cityslicka
 
 ## Como rodar o projeto
 - npx playwright test
 - npx playwright test questao1.1-rate-limiting/testes/rate-limiting.spec.js
-- npx playwright test questao1.2-token-management/testes
+- npx playwright test questao1.2-token-management/testes/token-refresh.spec.js
 - npx playwright show-report
 
 ```bash
