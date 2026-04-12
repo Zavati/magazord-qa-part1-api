@@ -16,3 +16,12 @@ Eu separaria os cenários em quatro grupos principais:
 
 Em um ambiente interno e controlado, eu complementaria com testes de concorrência ou carga para verificar se o rate limiting continua consistente sob maior carga. Nesse caso, métricas, logs e observabilidade ajudariam a validar se a regra está sendo aplicada corretamente. Ainda assim, eu trataria esse tipo de validação como complementar, porque o objetivo principal do rate limiting é garantir o consumo da API, e não medir a capacidade de escala da infraestrutura.
 
+### 1.1.b) Como você testaria o comportamento da API quando o limite é excedido?
+
+Eu testaria esse cenário de forma controlada, evitando depender dele na execução padrão da suíte.
+
+Em APIs públicas, forçar o esgotamento do rate limit em toda execução pode tornar os testes instáveis e consumir desnecessariamente a cota disponível. Por isso, no fluxo padrão eu validaria os headers de rate limit e o status retornado pela API, verificando se, quando a cota estiver esgotada, o comportamento é consistente com o esperado, como `403` e `X-RateLimit-Remaining = 0`.
+
+Além disso, eu criaria um teste opt-in, executado apenas manualmente ou por configuração de ambiente, para consumir requisições até detectar o bloqueio. Nesse cenário, eu validaria o status de erro, a mensagem retornada pela API, os headers indicando cota esgotada e o tempo de reset da janela.
+
+Dessa forma, consigo validar o comportamento de limite excedido sem tornar a suíte frágil ou agressiva contra uma API pública compartilhada.
