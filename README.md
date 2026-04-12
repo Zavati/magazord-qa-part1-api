@@ -1,0 +1,1 @@
+# magazord-qa-part1-api
