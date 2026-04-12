@@ -1,6 +1,6 @@
 # Part 1 API - Teste Magazord
 
-Este repositório contém a implementação da **Parte 1 - Testes de API** do desafio técnico para a vaga de **Coordenador de Qualidade** da Magazord.
+Este repositório contém a implementação da **Parte 1 - Testes de API** do desafio técnico para a vaga.
 
 O foco desta etapa é demonstrar:
 
