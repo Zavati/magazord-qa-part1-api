@@ -51,7 +51,7 @@ git clone <url-do-repositorio>
 cd part1-api
 
 ### 2. Inicializar o projeto Node.js
-- npm init -y
+- npm install
 ### 3. Instalar o Playwright Test
 - npm install -D @playwright/test
 ### 4. Instalar suporte para variáveis de ambiente
